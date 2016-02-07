@@ -1,0 +1,25 @@
+{
+    "version": "0.1.0",
+    "command": "gulp",
+    "isShellCommand": true,
+    "args": [
+        "--no-color"
+    ],
+    "tasks": [
+        {
+            "taskName": "ts",
+            "args": [],
+            "isBuildCommand": true
+        },
+        {
+            "taskName": "watch",
+            "args": [],
+            "isBuildCommand": false
+        },
+        {
+            "taskName": "server",
+            "args": [],
+            "isBuildCommand": true
+        }
+    ]
+}

@@ -1,9 +1,12 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "module": "commonjs",
         "sourceMap": true,
-        "outDir": "bin/js",
-        "outFile": "game.js"
-    }
+        "outDir": "js",
+        "outFile": "js/game.js"
+    },
+    "exclude": [
+        "node_modules",
+        "bower_components"      
+    ]
 }

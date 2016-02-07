@@ -1,0 +1,27 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Launch",
+			"type": "node",
+			"request": "launch",
+			"program": "./node-modules/gulp/bin/gulp.js",
+			"stopOnEntry": true,
+			"args": [],
+			"cwd": ".",
+			"runtimeExecutable": null,
+			"runtimeArgs": [],
+			"env": {},
+			"externalConsole": false,
+			"sourceMaps": true,
+			"outDir": null
+		},
+		{
+			"name": "Attach",
+			"type": "node",
+			"request": "attach",
+			"port": 5858,
+            "sourceMaps": true
+		}
+	]
+}
