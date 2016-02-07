@@ -45,19 +45,14 @@ var Euchre;
             _super.call(this, game, x, y, 'cards', Euchre.CardType.Back);
             this.card = card;
             this.anchor.setTo(0.5);
-            this.bringToTop();
+            this.animations.add('flip', [card.cardType], 1, false, true);
             game.add.existing(this);
         }
         CardSprite.prototype.update = function () {
-            if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
-                this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-                if (this.frame == Euchre.CardType.Back) {
-                    this.frame = this.card.cardType;
-                }
-                else {
-                    this.frame = Euchre.CardType.Back;
-                }
-            }
+            //
+        };
+        CardSprite.prototype.flipCard = function () {
+            this.animations.play('flip').stop();
         };
         return CardSprite;
     })(Phaser.Sprite);
@@ -124,6 +119,48 @@ var Euchre;
 })(Euchre || (Euchre = {}));
 var Euchre;
 (function (Euchre) {
+    var Deck = (function () {
+        function Deck() {
+            this._cards = [];
+            for (var type in Euchre.CardType) {
+                if (type != Euchre.CardType.Back) {
+                    this._cards.push(new Euchre.Card(type));
+                }
+            }
+            this._cards = _(this._cards).shuffle();
+        }
+        Deck.prototype.shuffle = function () {
+            this._cards = _(this._cards).shuffle();
+        };
+        Deck.prototype.dealCard = function () {
+            return this._cards.shift();
+        };
+        return Deck;
+    })();
+    Euchre.Deck = Deck;
+})(Euchre || (Euchre = {}));
+var Euchre;
+(function (Euchre) {
+    var EuchreDeck = (function (_super) {
+        __extends(EuchreDeck, _super);
+        function EuchreDeck() {
+            _super.call(this);
+            var euchreCards = [
+                Euchre.CardType.NineOfClubs, Euchre.CardType.NineOfDiamonds, Euchre.CardType.NineOfHearts, Euchre.CardType.NineOfSpades,
+                Euchre.CardType.TenOfClubs, Euchre.CardType.TenOfDiamonds, Euchre.CardType.TenOfHearts, Euchre.CardType.TenOfSpades,
+                Euchre.CardType.JackOfClubs, Euchre.CardType.JackOfDiamonds, Euchre.CardType.JackOfHearts, Euchre.CardType.JackOfSpades,
+                Euchre.CardType.QueenOfClubs, Euchre.CardType.QueenOfDiamonds, Euchre.CardType.QueenOfHearts, Euchre.CardType.QueenOfSpades,
+                Euchre.CardType.KingOfClubs, Euchre.CardType.KingOfDiamonds, Euchre.CardType.KingOfHearts, Euchre.CardType.KingOfSpades,
+                Euchre.CardType.AceOfClubs, Euchre.CardType.AceOfDiamonds, Euchre.CardType.AceOfHearts, Euchre.CardType.AceOfSpades,
+            ];
+            this._cards = _(this._cards).filter(function (x) { return _(euchreCards).any(function (c) { return c == x.cardType; }); });
+        }
+        return EuchreDeck;
+    })(Euchre.Deck);
+    Euchre.EuchreDeck = EuchreDeck;
+})(Euchre || (Euchre = {}));
+var Euchre;
+(function (Euchre) {
     var Game = (function (_super) {
         __extends(Game, _super);
         function Game() {
@@ -149,7 +186,8 @@ var Euchre;
             this.background = this.add.sprite(0, 0, 'background');
             this.background.width = this.game.width;
             this.background.height = this.game.height;
-            var card = new Euchre.CardSprite(new Euchre.Card(Euchre.CardType.AceOfClubs), this.game, this.game.world.centerX, this.game.world.centerY);
+            this.deck = new Euchre.EuchreDeck();
+            var card = new Euchre.CardSprite(this.deck.dealCard(), this.game, this.game.world.centerX, this.game.world.centerY);
         };
         return GameBoard;
     })(Phaser.State);

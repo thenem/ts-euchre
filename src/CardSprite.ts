@@ -8,24 +8,19 @@ module Euchre {
             super(game, x, y, 'cards', CardType.Back);
             
             this.anchor.setTo(0.5);
-            this.bringToTop();
+            this.animations.add('flip', [ card.cardType ], 1, false, true);
             
             game.add.existing(this);
         }
         
         update() {
             
-            if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
-                this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+            //
+        }
+        
+        flipCard() {
             
-                if (this.frame == CardType.Back) {
-                    
-                    this.frame = this.card.cardType;
-                } else {
-                    
-                    this.frame = CardType.Back;
-                }
-            }
+            this.animations.play('flip').stop();
         }
     }
 }
