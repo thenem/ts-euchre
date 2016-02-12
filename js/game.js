@@ -45,12 +45,9 @@ var Euchre;
             _super.call(this, game, x, y, 'cards', Euchre.CardType.Back);
             this.card = card;
             this.anchor.setTo(0.5);
-            this.animations.add('flip', [card.cardType], 1, false, true);
+            this.animations.add('flip', [card.cardType]);
             game.add.existing(this);
         }
-        CardSprite.prototype.update = function () {
-            //
-        };
         CardSprite.prototype.flipCard = function () {
             this.animations.play('flip').stop();
         };
@@ -122,17 +119,23 @@ var Euchre;
     var Deck = (function () {
         function Deck() {
             this._cards = [];
+            this.buildDeck();
+            this.shuffle();
+        }
+        Deck.prototype.buildDeck = function () {
             for (var type in Euchre.CardType) {
                 if (type != Euchre.CardType.Back) {
                     this._cards.push(new Euchre.Card(type));
                 }
             }
-            this._cards = _(this._cards).shuffle();
-        }
+        };
         Deck.prototype.shuffle = function () {
             this._cards = _(this._cards).shuffle();
         };
         Deck.prototype.dealCard = function () {
+            if (this._cards.length == 0) {
+                throw new Error('There are no cards to deal.');
+            }
             return this._cards.shift();
         };
         return Deck;
@@ -217,6 +220,15 @@ var Euchre;
         return MainMenu;
     })(Phaser.State);
     Euchre.MainMenu = MainMenu;
+})(Euchre || (Euchre = {}));
+var Euchre;
+(function (Euchre) {
+    var Player = (function () {
+        function Player() {
+        }
+        return Player;
+    })();
+    Euchre.Player = Player;
 })(Euchre || (Euchre = {}));
 var Euchre;
 (function (Euchre) {

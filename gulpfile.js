@@ -8,7 +8,7 @@ var connect = require('gulp-connect');
 
 var tsproject = ts.createProject('tsconfig.json');
 
-gulp.task('ts', function() {
+gulp.task('build', function() {
    var tsresult = tsproject.src()
         .pipe(ts(tsproject));
         
@@ -20,7 +20,7 @@ gulp.task('server', function() {
 });
 
 gulp.task('watch', function() {
-   gulp.watch('src/**/*.ts', [ 'ts' ]); 
+   gulp.watch('src/**/*.ts', [ 'build' ]); 
 });
 
-gulp.task('default', [ 'ts', 'watch', 'server' ]);
+gulp.task('default', [ 'build', 'watch', 'server' ]);
