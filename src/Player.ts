@@ -1,9 +1,10 @@
 
-module Euchre {
-    
+module TsEuchre {
+
     export class Player {
 
         private _hand: CardSprite[] = [];
+        private _ready: boolean = false;
 
         constructor(public playerType: PlayerType, public seat: SeatType) { }
 
@@ -20,7 +21,16 @@ module Euchre {
 
         takeTurn(gameBoard: GameBoard) {
 
+            if (this.seat == SeatType.Self) {
+                gameBoard.game.paused = true;
+            }
+
             gameBoard.playCard(this, this.determineCardToPlay(gameBoard.currentHand));
+            this._ready = true;
+        }
+
+        get ready(): boolean {
+            return this._ready;
         }
 
         private setCardPosition(card: CardSprite) {
@@ -38,6 +48,22 @@ module Euchre {
                     break;
                 case SeatType.Self:
                     this.positionCardToSelf(card);
+                    card.inputEnabled = true;
+                    card.events.onInputDown.add(() => this.clickCard(card), this);
+                    break;
+            }
+        }
+
+        private clickCard(card: CardSprite) {
+
+            if (this.seat == SeatType.Self) {
+
+                card.game.paused = false;
+                card.position.setTo(card.game.world.centerX, card.game.world.centerY + 30);
+
+                if (card.animations.frame == CardType.Back) {
+                    card.flipCard();
+                }
             }
         }
 
@@ -121,9 +147,13 @@ module Euchre {
             }
         }
 
-        private determineCardToPlay(): CardSprite {
+        private determineCardToPlay(hand: Hand): CardSprite {
 
-            return null;
+            if (this.seat == SeatType.Self) {
+
+            } else {
+
+            }
         }
     }
 

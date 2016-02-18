@@ -1,6 +1,6 @@
 
-module Euchre {
-    
+module TsEuchre {
+
     export class CardSprite extends Phaser.Sprite {
 
         private _card: Card;
@@ -59,6 +59,33 @@ module Euchre {
 
     export class Card {
 
-        constructor(public cardType: CardType) { }
+        private _cardType: CardType;
+        private _suit: Suit;
+        private _rank: Rank;
+
+        constructor(cardType: CardType) {
+
+            var cardTypeString = CardType[cardType];
+            var cardTypeSplit = cardTypeString.split('Of', 2);
+
+            this._cardType = cardType;
+            this._rank = Suit[cardTypeSplit[0]];
+            this._suit = Rank[cardTypeSplit[1]];
+        }
+
+        get cardType(): CardType {
+
+            return this._cardType;
+        }
+
+        get suit(): Suit {
+
+            return this._suit;
+        }
+
+        get rank(): Rank {
+
+            return this._rank;
+        }
     }
 }

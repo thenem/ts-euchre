@@ -1,6 +1,6 @@
 
-module Euchre {
-    
+module TsEuchre {
+
     export class GameBoard extends Phaser.State {
 
         private _blueScore: Phaser.Text;
@@ -13,6 +13,7 @@ module Euchre {
         private _selfPlayer: Player;
         private _currentPlayer: Player;
         private _dealer: Player;
+        private _currentHand: Hand;
 
         background: Phaser.Sprite;
         deck: EuchreDeck;
@@ -32,24 +33,27 @@ module Euchre {
         }
 
         update() {
+            
+            if (this._currentPlayer.ready) {
 
-            this._currentPlayer.takeTurn();
+                this._currentPlayer.takeTurn(this);
 
-            if (this._currentPlayer == this._leftPlayer) {
+                if (this._currentPlayer == this._leftPlayer) {
 
-                this._currentPlayer = this._partnerPlayer;
+                    this._currentPlayer = this._partnerPlayer;
 
-            } else if (this._currentPlayer == this._partnerPlayer) {
+                } else if (this._currentPlayer == this._partnerPlayer) {
 
-                this._currentPlayer = this._rightPlayer;
+                    this._currentPlayer = this._rightPlayer;
 
-            } else if (this._currentPlayer == this._rightPlayer) {
+                } else if (this._currentPlayer == this._rightPlayer) {
 
-                this._currentPlayer = this._selfPlayer;
+                    this._currentPlayer = this._selfPlayer;
 
-            } else if (this._currentPlayer == this._selfPlayer) {
+                } else if (this._currentPlayer == this._selfPlayer) {
 
-                this._currentPlayer = this._leftPlayer;
+                    this._currentPlayer = this._leftPlayer;
+                }
             }
         }
 
@@ -205,6 +209,10 @@ module Euchre {
 
                 player.addCardToHand(this.deck.dealCard(), this.game);
             }
+        }
+
+        get currentHand(): Hand {
+            return this._currentHand;
         }
     }
 }
