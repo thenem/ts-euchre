@@ -150,9 +150,9 @@ module Euchre {
         private determineCardToPlay(hand: Hand): CardSprite {
 
             if (this.seat == SeatType.Self) {
-
+                
             } else {
-
+                return null;
             }
         }
     }

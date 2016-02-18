@@ -7,7 +7,7 @@
     ],
     "tasks": [
         {
-            "taskName": "ts",
+            "taskName": "build",
             "args": [],
             "isBuildCommand": true
         },

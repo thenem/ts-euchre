@@ -27,12 +27,12 @@ var Euchre;
     })(Phaser.State);
     Euchre.Boot = Boot;
 })(Euchre || (Euchre = {}));
-var TsEuchre;
-(function (TsEuchre) {
+var Euchre;
+(function (Euchre) {
     var CardSprite = (function (_super) {
         __extends(CardSprite, _super);
         function CardSprite(card, seatType, game, x, y) {
-            _super.call(this, game, x, y, 'cards', CardType.Back);
+            _super.call(this, game, x, y, 'cards', Euchre.CardType.Back);
             this._card = card;
             this._seatType = seatType;
             this.anchor.setTo(0.5);
@@ -46,16 +46,16 @@ var TsEuchre;
             set: function (value) {
                 if (this._seatType != value) {
                     switch (value) {
-                        case SeatType.Left:
+                        case Euchre.SeatType.Left:
                             this.angle = 90;
                             break;
-                        case SeatType.Partner:
+                        case Euchre.SeatType.Partner:
                             this.angle = 180;
                             break;
-                        case SeatType.Right:
+                        case Euchre.SeatType.Right:
                             this.angle = 270;
                             break;
-                        case SeatType.Self:
+                        case Euchre.SeatType.Self:
                             this.angle = 0;
                             break;
                         default:
@@ -73,14 +73,14 @@ var TsEuchre;
         };
         return CardSprite;
     })(Phaser.Sprite);
-    TsEuchre.CardSprite = CardSprite;
+    Euchre.CardSprite = CardSprite;
     var Card = (function () {
         function Card(cardType) {
-            var cardTypeString = CardType[cardType];
+            var cardTypeString = Euchre.CardType[cardType];
             var cardTypeSplit = cardTypeString.split('Of', 2);
             this._cardType = cardType;
-            this._rank = TsEuchre.Suit[cardTypeSplit[0]];
-            this._suit = TsEuchre.Rank[cardTypeSplit[1]];
+            this._rank = Euchre.Suit[cardTypeSplit[0]];
+            this._suit = Euchre.Rank[cardTypeSplit[1]];
         }
         Object.defineProperty(Card.prototype, "cardType", {
             get: function () {
@@ -105,8 +105,8 @@ var TsEuchre;
         });
         return Card;
     })();
-    TsEuchre.Card = Card;
-})(TsEuchre || (TsEuchre = {}));
+    Euchre.Card = Card;
+})(Euchre || (Euchre = {}));
 var Euchre;
 (function (Euchre) {
     (function (CardType) {
@@ -168,6 +168,26 @@ var Euchre;
 })(Euchre || (Euchre = {}));
 var Euchre;
 (function (Euchre) {
+    (function (CardValue) {
+        CardValue[CardValue["NineNoTrump"] = 1] = "NineNoTrump";
+        CardValue[CardValue["TenNoTrump"] = 2] = "TenNoTrump";
+        CardValue[CardValue["JackNoTrump"] = 3] = "JackNoTrump";
+        CardValue[CardValue["QueenNoTrump"] = 4] = "QueenNoTrump";
+        CardValue[CardValue["KingNoTrump"] = 5] = "KingNoTrump";
+        CardValue[CardValue["AceNoTrump"] = 10] = "AceNoTrump";
+        CardValue[CardValue["NineTrump"] = 12] = "NineTrump";
+        CardValue[CardValue["TenTrump"] = 15] = "TenTrump";
+        CardValue[CardValue["QueenTrump"] = 20] = "QueenTrump";
+        CardValue[CardValue["KingTrump"] = 25] = "KingTrump";
+        CardValue[CardValue["AceTrump"] = 30] = "AceTrump";
+        CardValue[CardValue["LeftBower"] = 31] = "LeftBower";
+        CardValue[CardValue["RightBower"] = 35] = "RightBower";
+        CardValue[CardValue["NoValue"] = -1] = "NoValue";
+    })(Euchre.CardValue || (Euchre.CardValue = {}));
+    var CardValue = Euchre.CardValue;
+})(Euchre || (Euchre = {}));
+var Euchre;
+(function (Euchre) {
     var Deck = (function () {
         function Deck() {
             this._cards = [];
@@ -177,7 +197,7 @@ var Euchre;
         Deck.prototype.buildDeck = function () {
             for (var type in Euchre.CardType) {
                 if (type != Euchre.CardType.Back) {
-                    this._cards.push(new Card(type));
+                    this._cards.push(new Euchre.Card(type));
                 }
             }
         };
@@ -223,15 +243,15 @@ var Euchre;
             this.state.add('Boot', Euchre.Boot, false);
             this.state.add('Preloader', Euchre.Preloader, false);
             this.state.add('MainMenu', Euchre.MainMenu, false);
-            this.state.add('GameBoard', GameBoard, false);
+            this.state.add('GameBoard', Euchre.GameBoard, false);
             this.state.start('Boot');
         }
         return Game;
     })(Phaser.Game);
     Euchre.Game = Game;
 })(Euchre || (Euchre = {}));
-var TsEuchre;
-(function (TsEuchre) {
+var Euchre;
+(function (Euchre) {
     var GameBoard = (function (_super) {
         __extends(GameBoard, _super);
         function GameBoard() {
@@ -241,7 +261,7 @@ var TsEuchre;
             this.background = this.add.sprite(0, 0, 'background');
             this.background.width = this.game.width;
             this.background.height = this.game.height;
-            this.deck = new EuchreDeck();
+            this.deck = new Euchre.EuchreDeck();
             this.setupTeamScores();
             this.setupTeamTrickScores();
             this.setupPlayers();
@@ -337,10 +357,10 @@ var TsEuchre;
             this._redTricks.text = '0';
         };
         GameBoard.prototype.setupPlayers = function () {
-            this._leftPlayer = new TsEuchre.Player(TsEuchre.PlayerType.Computer, SeatType.Left);
-            this._partnerPlayer = new TsEuchre.Player(TsEuchre.PlayerType.Computer, SeatType.Partner);
-            this._rightPlayer = new TsEuchre.Player(TsEuchre.PlayerType.Computer, SeatType.Right);
-            this._selfPlayer = new TsEuchre.Player(TsEuchre.PlayerType.Human, SeatType.Self);
+            this._leftPlayer = new Euchre.Player(Euchre.PlayerType.Computer, Euchre.SeatType.Left);
+            this._partnerPlayer = new Euchre.Player(Euchre.PlayerType.Computer, Euchre.SeatType.Partner);
+            this._rightPlayer = new Euchre.Player(Euchre.PlayerType.Computer, Euchre.SeatType.Right);
+            this._selfPlayer = new Euchre.Player(Euchre.PlayerType.Human, Euchre.SeatType.Self);
             this._dealer = this._selfPlayer;
             this._currentPlayer = this._leftPlayer;
         };
@@ -401,25 +421,25 @@ var TsEuchre;
         });
         return GameBoard;
     })(Phaser.State);
-    TsEuchre.GameBoard = GameBoard;
-})(TsEuchre || (TsEuchre = {}));
-var TsEuchre;
-(function (TsEuchre) {
+    Euchre.GameBoard = GameBoard;
+})(Euchre || (Euchre = {}));
+var Euchre;
+(function (Euchre) {
     var Hand = (function () {
         function Hand(trumpSuit) {
             this._trumpSuit = trumpSuit;
             switch (trumpSuit) {
-                case TsEuchre.Suit.Clubs:
-                    this._leftBowerSuit = TsEuchre.Suit.Spades;
+                case Euchre.Suit.Clubs:
+                    this._leftBowerSuit = Euchre.Suit.Spades;
                     break;
-                case TsEuchre.Suit.Diamonds:
-                    this._leftBowerSuit = TsEuchre.Suit.Hearts;
+                case Euchre.Suit.Diamonds:
+                    this._leftBowerSuit = Euchre.Suit.Hearts;
                     break;
-                case TsEuchre.Suit.Hearts:
-                    this._leftBowerSuit = TsEuchre.Suit.Diamonds;
+                case Euchre.Suit.Hearts:
+                    this._leftBowerSuit = Euchre.Suit.Diamonds;
                     break;
-                case TsEuchre.Suit.Spades:
-                    this._leftBowerSuit = TsEuchre.Suit.Clubs;
+                case Euchre.Suit.Spades:
+                    this._leftBowerSuit = Euchre.Suit.Clubs;
                     break;
             }
         }
@@ -497,8 +517,8 @@ var TsEuchre;
         };
         return Hand;
     })();
-    TsEuchre.Hand = Hand;
-})(TsEuchre || (TsEuchre = {}));
+    Euchre.Hand = Hand;
+})(Euchre || (Euchre = {}));
 var Euchre;
 (function (Euchre) {
     var MainMenu = (function (_super) {
@@ -524,8 +544,8 @@ var Euchre;
     })(Phaser.State);
     Euchre.MainMenu = MainMenu;
 })(Euchre || (Euchre = {}));
-var TsEuchre;
-(function (TsEuchre) {
+var Euchre;
+(function (Euchre) {
     var Player = (function () {
         function Player(playerType, seat) {
             this.playerType = playerType;
@@ -536,12 +556,12 @@ var TsEuchre;
         Player.prototype.addCardToHand = function (card, game) {
             if (this._hand.length == 5)
                 throw new Error('Player hand is full.');
-            var newCard = new TsEuchre.CardSprite(card, this.seat, game);
+            var newCard = new Euchre.CardSprite(card, this.seat, game);
             this.setCardPosition(newCard);
             this._hand.push(newCard);
         };
         Player.prototype.takeTurn = function (gameBoard) {
-            if (this.seat == SeatType.Self) {
+            if (this.seat == Euchre.SeatType.Self) {
                 gameBoard.game.paused = true;
             }
             gameBoard.playCard(this, this.determineCardToPlay(gameBoard.currentHand));
@@ -557,16 +577,16 @@ var TsEuchre;
         Player.prototype.setCardPosition = function (card) {
             var _this = this;
             switch (this.seat) {
-                case SeatType.Left:
+                case Euchre.SeatType.Left:
                     this.positionCardToLeft(card);
                     break;
-                case SeatType.Partner:
+                case Euchre.SeatType.Partner:
                     this.positionCardAcross(card);
                     break;
-                case SeatType.Right:
+                case Euchre.SeatType.Right:
                     this.positionCardToRight(card);
                     break;
-                case SeatType.Self:
+                case Euchre.SeatType.Self:
                     this.positionCardToSelf(card);
                     card.inputEnabled = true;
                     card.events.onInputDown.add(function () { return _this.clickCard(card); }, this);
@@ -574,10 +594,10 @@ var TsEuchre;
             }
         };
         Player.prototype.clickCard = function (card) {
-            if (this.seat == SeatType.Self) {
+            if (this.seat == Euchre.SeatType.Self) {
                 card.game.paused = false;
                 card.position.setTo(card.game.world.centerX, card.game.world.centerY + 30);
-                if (card.animations.frame == CardType.Back) {
+                if (card.animations.frame == Euchre.CardType.Back) {
                     card.flipCard();
                 }
             }
@@ -639,20 +659,21 @@ var TsEuchre;
             }
         };
         Player.prototype.determineCardToPlay = function (hand) {
-            if (this.seat == SeatType.Self) {
+            if (this.seat == Euchre.SeatType.Self) {
             }
             else {
+                return null;
             }
         };
         return Player;
     })();
-    TsEuchre.Player = Player;
+    Euchre.Player = Player;
     (function (PlayerType) {
         PlayerType[PlayerType["Human"] = 0] = "Human";
         PlayerType[PlayerType["Computer"] = 1] = "Computer";
-    })(TsEuchre.PlayerType || (TsEuchre.PlayerType = {}));
-    var PlayerType = TsEuchre.PlayerType;
-})(TsEuchre || (TsEuchre = {}));
+    })(Euchre.PlayerType || (Euchre.PlayerType = {}));
+    var PlayerType = Euchre.PlayerType;
+})(Euchre || (Euchre = {}));
 var Euchre;
 (function (Euchre) {
     var Preloader = (function (_super) {
@@ -688,15 +709,15 @@ var Euchre;
     })(Euchre.SeatType || (Euchre.SeatType = {}));
     var SeatType = Euchre.SeatType;
 })(Euchre || (Euchre = {}));
-var TsEuchre;
-(function (TsEuchre) {
+var Euchre;
+(function (Euchre) {
     (function (Suit) {
         Suit[Suit["Clubs"] = 0] = "Clubs";
         Suit[Suit["Diamonds"] = 1] = "Diamonds";
         Suit[Suit["Hearts"] = 2] = "Hearts";
         Suit[Suit["Spades"] = 3] = "Spades";
-    })(TsEuchre.Suit || (TsEuchre.Suit = {}));
-    var Suit = TsEuchre.Suit;
+    })(Euchre.Suit || (Euchre.Suit = {}));
+    var Suit = Euchre.Suit;
     (function (Rank) {
         Rank[Rank["Nine"] = 0] = "Nine";
         Rank[Rank["Ten"] = 1] = "Ten";
@@ -704,9 +725,9 @@ var TsEuchre;
         Rank[Rank["Queen"] = 3] = "Queen";
         Rank[Rank["King"] = 4] = "King";
         Rank[Rank["Ace"] = 5] = "Ace";
-    })(TsEuchre.Rank || (TsEuchre.Rank = {}));
-    var Rank = TsEuchre.Rank;
-})(TsEuchre || (TsEuchre = {}));
+    })(Euchre.Rank || (Euchre.Rank = {}));
+    var Rank = Euchre.Rank;
+})(Euchre || (Euchre = {}));
 window.onload = function () {
     var game = new Euchre.Game();
 };
