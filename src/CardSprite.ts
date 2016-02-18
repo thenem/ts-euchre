@@ -1,5 +1,5 @@
 
-module TsEuchre {
+module Euchre {
 
     export class CardSprite extends Phaser.Sprite {
 
