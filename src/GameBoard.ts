@@ -17,7 +17,7 @@ module Euchre {
 
         background: Phaser.Sprite;
         deck: EuchreDeck;
-        
+
         create() {
 
             this.background = this.add.sprite(0, 0, 'background');
@@ -33,32 +33,34 @@ module Euchre {
         }
 
         update() {
-            
-            if (this._currentPlayer.ready) {
 
-                this._currentPlayer.takeTurn(this);
 
-                if (this._currentPlayer == this._leftPlayer) {
-
-                    this._currentPlayer = this._partnerPlayer;
-
-                } else if (this._currentPlayer == this._partnerPlayer) {
-
-                    this._currentPlayer = this._rightPlayer;
-
-                } else if (this._currentPlayer == this._rightPlayer) {
-
-                    this._currentPlayer = this._selfPlayer;
-
-                } else if (this._currentPlayer == this._selfPlayer) {
-
-                    this._currentPlayer = this._leftPlayer;
-                }
-            }
         }
 
         playCard(player: Player, card: CardSprite) {
 
+            //this._currentPlayer.takeTurn(this);
+            //this.setNextPlayer();
+        }
+
+        private setNextPlayer() {
+
+            if (this._currentPlayer == this._leftPlayer) {
+
+                this._currentPlayer = this._partnerPlayer;
+
+            } else if (this._currentPlayer == this._partnerPlayer) {
+
+                this._currentPlayer = this._rightPlayer;
+
+            } else if (this._currentPlayer == this._rightPlayer) {
+
+                this._currentPlayer = this._selfPlayer;
+
+            } else if (this._currentPlayer == this._selfPlayer) {
+
+                this._currentPlayer = this._leftPlayer;
+            }
         }
 
         private setupTeamScores() {
@@ -167,7 +169,7 @@ module Euchre {
                 this.dealSomeCards(2, this._leftPlayer);
 
             } else if (this._dealer == this._partnerPlayer) {
-                
+
                 this.dealSomeCards(3, this._rightPlayer);
                 this.dealSomeCards(2, this._selfPlayer);
                 this.dealSomeCards(3, this._leftPlayer);
@@ -178,7 +180,7 @@ module Euchre {
                 this.dealSomeCards(2, this._partnerPlayer);
 
             } else if (this._dealer == this._rightPlayer) {
-                
+
                 this.dealSomeCards(3, this._selfPlayer);
                 this.dealSomeCards(2, this._leftPlayer);
                 this.dealSomeCards(3, this._partnerPlayer);
@@ -189,7 +191,7 @@ module Euchre {
                 this.dealSomeCards(2, this._rightPlayer);
 
             } else if (this._dealer == this._selfPlayer) {
-                
+
                 this.dealSomeCards(3, this._leftPlayer);
                 this.dealSomeCards(2, this._partnerPlayer);
                 this.dealSomeCards(3, this._rightPlayer);
@@ -205,8 +207,7 @@ module Euchre {
 
         private dealSomeCards(numberOfCards: number, player: Player) {
 
-            for (var i = 0; i < 3; i++) {
-
+            for (var i = 0; i < numberOfCards; i++) {
                 player.addCardToHand(this.deck.dealCard(), this.game);
             }
         }

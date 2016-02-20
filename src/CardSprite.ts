@@ -66,11 +66,11 @@ module Euchre {
         constructor(cardType: CardType) {
 
             var cardTypeString = CardType[cardType];
-            var cardTypeSplit = cardTypeString.split('Of', 2);
+            var cardTypeSplit = cardTypeString.toString().split('Of');
 
             this._cardType = cardType;
-            this._rank = Suit[cardTypeSplit[0]];
-            this._suit = Rank[cardTypeSplit[1]];
+            this._rank = Rank[cardTypeSplit[0]];
+            this._suit = Suit[cardTypeSplit[1]];
         }
 
         get cardType(): CardType {

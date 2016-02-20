@@ -10,7 +10,7 @@ module Euchre {
 
         addCardToHand(card: Card, game: Game) {
 
-            if (this._hand.length == 5)
+            if (this._hand.length >= 5)
                 throw new Error('Player hand is full.');
 
             var newCard = new CardSprite(card, this.seat, game);
@@ -150,7 +150,7 @@ module Euchre {
         private determineCardToPlay(hand: Hand): CardSprite {
 
             if (this.seat == SeatType.Self) {
-                
+                return null;
             } else {
                 return null;
             }

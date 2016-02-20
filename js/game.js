@@ -77,10 +77,10 @@ var Euchre;
     var Card = (function () {
         function Card(cardType) {
             var cardTypeString = Euchre.CardType[cardType];
-            var cardTypeSplit = cardTypeString.split('Of', 2);
+            var cardTypeSplit = cardTypeString.toString().split('Of');
             this._cardType = cardType;
-            this._rank = Euchre.Suit[cardTypeSplit[0]];
-            this._suit = Euchre.Rank[cardTypeSplit[1]];
+            this._rank = Euchre.Rank[cardTypeSplit[0]];
+            this._suit = Euchre.Suit[cardTypeSplit[1]];
         }
         Object.defineProperty(Card.prototype, "cardType", {
             get: function () {
@@ -268,23 +268,24 @@ var Euchre;
             this.dealCards();
         };
         GameBoard.prototype.update = function () {
-            if (this._currentPlayer.ready) {
-                this._currentPlayer.takeTurn(this);
-                if (this._currentPlayer == this._leftPlayer) {
-                    this._currentPlayer = this._partnerPlayer;
-                }
-                else if (this._currentPlayer == this._partnerPlayer) {
-                    this._currentPlayer = this._rightPlayer;
-                }
-                else if (this._currentPlayer == this._rightPlayer) {
-                    this._currentPlayer = this._selfPlayer;
-                }
-                else if (this._currentPlayer == this._selfPlayer) {
-                    this._currentPlayer = this._leftPlayer;
-                }
-            }
         };
         GameBoard.prototype.playCard = function (player, card) {
+            //this._currentPlayer.takeTurn(this);
+            //this.setNextPlayer();
+        };
+        GameBoard.prototype.setNextPlayer = function () {
+            if (this._currentPlayer == this._leftPlayer) {
+                this._currentPlayer = this._partnerPlayer;
+            }
+            else if (this._currentPlayer == this._partnerPlayer) {
+                this._currentPlayer = this._rightPlayer;
+            }
+            else if (this._currentPlayer == this._rightPlayer) {
+                this._currentPlayer = this._selfPlayer;
+            }
+            else if (this._currentPlayer == this._selfPlayer) {
+                this._currentPlayer = this._leftPlayer;
+            }
         };
         GameBoard.prototype.setupTeamScores = function () {
             var blueText = this.game.add.text(this.game.width - 120, 10, 'Blue:', null);
@@ -408,7 +409,7 @@ var Euchre;
             throw new Error("Dealer is not set.");
         };
         GameBoard.prototype.dealSomeCards = function (numberOfCards, player) {
-            for (var i = 0; i < 3; i++) {
+            for (var i = 0; i < numberOfCards; i++) {
                 player.addCardToHand(this.deck.dealCard(), this.game);
             }
         };
@@ -554,7 +555,7 @@ var Euchre;
             this._ready = false;
         }
         Player.prototype.addCardToHand = function (card, game) {
-            if (this._hand.length == 5)
+            if (this._hand.length >= 5)
                 throw new Error('Player hand is full.');
             var newCard = new Euchre.CardSprite(card, this.seat, game);
             this.setCardPosition(newCard);
@@ -660,6 +661,7 @@ var Euchre;
         };
         Player.prototype.determineCardToPlay = function (hand) {
             if (this.seat == Euchre.SeatType.Self) {
+                return null;
             }
             else {
                 return null;
