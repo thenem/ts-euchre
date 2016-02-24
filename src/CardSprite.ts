@@ -26,29 +26,26 @@ module Euchre {
 
         set perspective(value: SeatType) {
 
-            if (this._seatType != value) {
+            switch (value) {
 
-                switch (value) {
-
-                    case SeatType.Left:
-                        this.angle = 90;
-                        break;
-                    case SeatType.Partner:
-                        this.angle = 180;
-                        break;
-                    case SeatType.Right:
-                        this.angle = 270;
-                        break;
-                    case SeatType.Self:
-                        this.angle = 0;
-                        break;
-                    default:
-                        this.angle = 0;
-                        break;
-                }
-
-                this._seatType = value;
+                case SeatType.Left:
+                    this.angle = 90;
+                    break;
+                case SeatType.Partner:
+                    this.angle = 180;
+                    break;
+                case SeatType.Right:
+                    this.angle = -90;
+                    break;
+                case SeatType.Self:
+                    this.angle = 0;
+                    break;
+                default:
+                    this.angle = 0;
+                    break;
             }
+
+            this._seatType = value;
         }
 
         flipCard() {

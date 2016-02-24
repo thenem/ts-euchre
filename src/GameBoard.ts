@@ -163,43 +163,48 @@ module Euchre {
                 this.dealSomeCards(2, this._rightPlayer);
                 this.dealSomeCards(3, this._selfPlayer);
                 this.dealSomeCards(2, this._leftPlayer);
-                this.dealSomeCards(3, this._partnerPlayer);
-                this.dealSomeCards(2, this._rightPlayer);
-                this.dealSomeCards(3, this._selfPlayer);
-                this.dealSomeCards(2, this._leftPlayer);
-
+                this.dealSomeCards(2, this._partnerPlayer);
+                this.dealSomeCards(3, this._rightPlayer);
+                this.dealSomeCards(2, this._selfPlayer);
+                this.dealSomeCards(3, this._leftPlayer);
+                
+                return;
             } else if (this._dealer == this._partnerPlayer) {
 
                 this.dealSomeCards(3, this._rightPlayer);
                 this.dealSomeCards(2, this._selfPlayer);
                 this.dealSomeCards(3, this._leftPlayer);
                 this.dealSomeCards(2, this._partnerPlayer);
-                this.dealSomeCards(3, this._rightPlayer);
-                this.dealSomeCards(2, this._selfPlayer);
-                this.dealSomeCards(3, this._leftPlayer);
-                this.dealSomeCards(2, this._partnerPlayer);
+                this.dealSomeCards(2, this._rightPlayer);
+                this.dealSomeCards(3, this._selfPlayer);
+                this.dealSomeCards(2, this._leftPlayer);
+                this.dealSomeCards(3, this._partnerPlayer);
 
+                return;
             } else if (this._dealer == this._rightPlayer) {
 
                 this.dealSomeCards(3, this._selfPlayer);
                 this.dealSomeCards(2, this._leftPlayer);
                 this.dealSomeCards(3, this._partnerPlayer);
                 this.dealSomeCards(2, this._rightPlayer);
-                this.dealSomeCards(3, this._selfPlayer);
-                this.dealSomeCards(2, this._leftPlayer);
-                this.dealSomeCards(3, this._partnerPlayer);
-                this.dealSomeCards(2, this._rightPlayer);
+                this.dealSomeCards(2, this._selfPlayer);
+                this.dealSomeCards(3, this._leftPlayer);
+                this.dealSomeCards(2, this._partnerPlayer);
+                this.dealSomeCards(3, this._rightPlayer);
 
+                return;
             } else if (this._dealer == this._selfPlayer) {
 
                 this.dealSomeCards(3, this._leftPlayer);
                 this.dealSomeCards(2, this._partnerPlayer);
                 this.dealSomeCards(3, this._rightPlayer);
                 this.dealSomeCards(2, this._selfPlayer);
-                this.dealSomeCards(3, this._leftPlayer);
-                this.dealSomeCards(2, this._partnerPlayer);
-                this.dealSomeCards(3, this._rightPlayer);
-                this.dealSomeCards(2, this._selfPlayer);
+                this.dealSomeCards(2, this._leftPlayer);
+                this.dealSomeCards(3, this._partnerPlayer);
+                this.dealSomeCards(2, this._rightPlayer);
+                this.dealSomeCards(3, this._selfPlayer);
+                
+                return;
             }
 
             throw new Error("Dealer is not set.");

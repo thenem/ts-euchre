@@ -71,17 +71,19 @@ module Euchre {
 
             var game = card.game;
             var lastCard = _(this._hand).last();
+            card.perspective = SeatType.Left;
+            
             if (lastCard != null) {
 
                 card.x = lastCard.x;
-                card.y = lastCard.y + lastCard.height;
+                card.y = lastCard.y + lastCard.height / 2;
 
                 game.add.existing(card);
 
             } else {
 
-                card.x = 5;
-                card.y = 100;
+                card.x = 80;
+                card.y = 190;
 
                 game.add.existing(card);
             }
@@ -91,17 +93,19 @@ module Euchre {
 
             var game = card.game;
             var lastCard = _(this._hand).last();
+            card.perspective = SeatType.Partner;
+            
             if (lastCard != null) {
 
-                card.x = lastCard.x + lastCard.width;
+                card.x = lastCard.x + lastCard.width / 1.3;
                 card.y = lastCard.y;
 
                 game.add.existing(card);
 
             } else {
 
-                card.x = 100;
-                card.y = 5;
+                card.x = 270;
+                card.y = 80;
 
                 game.add.existing(card);
             }
@@ -111,17 +115,19 @@ module Euchre {
 
             var game = card.game;
             var lastCard = _(this._hand).last();
+            card.perspective = SeatType.Right;
+            
             if (lastCard != null) {
 
                 card.x = lastCard.x;
-                card.y = lastCard.y + lastCard.height;
+                card.y = lastCard.y + lastCard.height / 2;
 
                 game.add.existing(card);
 
             } else {
 
-                card.x = game.width - 100;
-                card.y = 300;
+                card.x = game.width - 80;
+                card.y = 190;
 
                 game.add.existing(card);
             }
@@ -131,17 +137,19 @@ module Euchre {
 
             var game = card.game;
             var lastCard = _(this._hand).last();
+            card.perspective = SeatType.Self;
+            
             if (lastCard != null) {
 
-                card.x = lastCard.x + lastCard.width;
+                card.x = lastCard.x + lastCard.width / 1.3;
                 card.y = lastCard.y;
 
                 game.add.existing(card);
 
             } else {
 
-                card.x = 100;
-                card.y = game.height - 100;
+                card.x = 270;
+                card.y = game.height - 80;
 
                 game.add.existing(card);
             }

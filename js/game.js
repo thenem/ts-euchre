@@ -1,3 +1,6 @@
+window.onload = function () {
+    var game = new Euchre.Game();
+};
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -44,26 +47,24 @@ var Euchre;
                 return this._seatType;
             },
             set: function (value) {
-                if (this._seatType != value) {
-                    switch (value) {
-                        case Euchre.SeatType.Left:
-                            this.angle = 90;
-                            break;
-                        case Euchre.SeatType.Partner:
-                            this.angle = 180;
-                            break;
-                        case Euchre.SeatType.Right:
-                            this.angle = 270;
-                            break;
-                        case Euchre.SeatType.Self:
-                            this.angle = 0;
-                            break;
-                        default:
-                            this.angle = 0;
-                            break;
-                    }
-                    this._seatType = value;
+                switch (value) {
+                    case Euchre.SeatType.Left:
+                        this.angle = 90;
+                        break;
+                    case Euchre.SeatType.Partner:
+                        this.angle = 180;
+                        break;
+                    case Euchre.SeatType.Right:
+                        this.angle = -90;
+                        break;
+                    case Euchre.SeatType.Self:
+                        this.angle = 0;
+                        break;
+                    default:
+                        this.angle = 0;
+                        break;
                 }
+                this._seatType = value;
             },
             enumerable: true,
             configurable: true
@@ -371,40 +372,44 @@ var Euchre;
                 this.dealSomeCards(2, this._rightPlayer);
                 this.dealSomeCards(3, this._selfPlayer);
                 this.dealSomeCards(2, this._leftPlayer);
-                this.dealSomeCards(3, this._partnerPlayer);
-                this.dealSomeCards(2, this._rightPlayer);
-                this.dealSomeCards(3, this._selfPlayer);
-                this.dealSomeCards(2, this._leftPlayer);
+                this.dealSomeCards(2, this._partnerPlayer);
+                this.dealSomeCards(3, this._rightPlayer);
+                this.dealSomeCards(2, this._selfPlayer);
+                this.dealSomeCards(3, this._leftPlayer);
+                return;
             }
             else if (this._dealer == this._partnerPlayer) {
                 this.dealSomeCards(3, this._rightPlayer);
                 this.dealSomeCards(2, this._selfPlayer);
                 this.dealSomeCards(3, this._leftPlayer);
                 this.dealSomeCards(2, this._partnerPlayer);
-                this.dealSomeCards(3, this._rightPlayer);
-                this.dealSomeCards(2, this._selfPlayer);
-                this.dealSomeCards(3, this._leftPlayer);
-                this.dealSomeCards(2, this._partnerPlayer);
+                this.dealSomeCards(2, this._rightPlayer);
+                this.dealSomeCards(3, this._selfPlayer);
+                this.dealSomeCards(2, this._leftPlayer);
+                this.dealSomeCards(3, this._partnerPlayer);
+                return;
             }
             else if (this._dealer == this._rightPlayer) {
                 this.dealSomeCards(3, this._selfPlayer);
                 this.dealSomeCards(2, this._leftPlayer);
                 this.dealSomeCards(3, this._partnerPlayer);
                 this.dealSomeCards(2, this._rightPlayer);
-                this.dealSomeCards(3, this._selfPlayer);
-                this.dealSomeCards(2, this._leftPlayer);
-                this.dealSomeCards(3, this._partnerPlayer);
-                this.dealSomeCards(2, this._rightPlayer);
+                this.dealSomeCards(2, this._selfPlayer);
+                this.dealSomeCards(3, this._leftPlayer);
+                this.dealSomeCards(2, this._partnerPlayer);
+                this.dealSomeCards(3, this._rightPlayer);
+                return;
             }
             else if (this._dealer == this._selfPlayer) {
                 this.dealSomeCards(3, this._leftPlayer);
                 this.dealSomeCards(2, this._partnerPlayer);
                 this.dealSomeCards(3, this._rightPlayer);
                 this.dealSomeCards(2, this._selfPlayer);
-                this.dealSomeCards(3, this._leftPlayer);
-                this.dealSomeCards(2, this._partnerPlayer);
-                this.dealSomeCards(3, this._rightPlayer);
-                this.dealSomeCards(2, this._selfPlayer);
+                this.dealSomeCards(2, this._leftPlayer);
+                this.dealSomeCards(3, this._partnerPlayer);
+                this.dealSomeCards(2, this._rightPlayer);
+                this.dealSomeCards(3, this._selfPlayer);
+                return;
             }
             throw new Error("Dealer is not set.");
         };
@@ -606,56 +611,60 @@ var Euchre;
         Player.prototype.positionCardToLeft = function (card) {
             var game = card.game;
             var lastCard = _(this._hand).last();
+            card.perspective = Euchre.SeatType.Left;
             if (lastCard != null) {
                 card.x = lastCard.x;
-                card.y = lastCard.y + lastCard.height;
+                card.y = lastCard.y + lastCard.height / 2;
                 game.add.existing(card);
             }
             else {
-                card.x = 5;
-                card.y = 100;
+                card.x = 80;
+                card.y = 190;
                 game.add.existing(card);
             }
         };
         Player.prototype.positionCardAcross = function (card) {
             var game = card.game;
             var lastCard = _(this._hand).last();
+            card.perspective = Euchre.SeatType.Partner;
             if (lastCard != null) {
-                card.x = lastCard.x + lastCard.width;
+                card.x = lastCard.x + lastCard.width / 1.3;
                 card.y = lastCard.y;
                 game.add.existing(card);
             }
             else {
-                card.x = 100;
-                card.y = 5;
+                card.x = 270;
+                card.y = 80;
                 game.add.existing(card);
             }
         };
         Player.prototype.positionCardToRight = function (card) {
             var game = card.game;
             var lastCard = _(this._hand).last();
+            card.perspective = Euchre.SeatType.Right;
             if (lastCard != null) {
                 card.x = lastCard.x;
-                card.y = lastCard.y + lastCard.height;
+                card.y = lastCard.y + lastCard.height / 2;
                 game.add.existing(card);
             }
             else {
-                card.x = game.width - 100;
-                card.y = 300;
+                card.x = game.width - 80;
+                card.y = 190;
                 game.add.existing(card);
             }
         };
         Player.prototype.positionCardToSelf = function (card) {
             var game = card.game;
             var lastCard = _(this._hand).last();
+            card.perspective = Euchre.SeatType.Self;
             if (lastCard != null) {
-                card.x = lastCard.x + lastCard.width;
+                card.x = lastCard.x + lastCard.width / 1.3;
                 card.y = lastCard.y;
                 game.add.existing(card);
             }
             else {
-                card.x = 100;
-                card.y = game.height - 100;
+                card.x = 270;
+                card.y = game.height - 80;
                 game.add.existing(card);
             }
         };
@@ -730,6 +739,5 @@ var Euchre;
     })(Euchre.Rank || (Euchre.Rank = {}));
     var Rank = Euchre.Rank;
 })(Euchre || (Euchre = {}));
-window.onload = function () {
-    var game = new Euchre.Game();
-};
+
+//# sourceMappingURL=game.js.map
