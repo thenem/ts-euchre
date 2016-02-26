@@ -14,6 +14,8 @@ module Euchre {
         private _currentPlayer: Player;
         private _dealer: Player;
         private _currentHand: Hand;
+        private _redPlayerBox: Phaser.Rectangle;
+        private _bluePlayerBox: Phaser.Rectangle;
 
         background: Phaser.Sprite;
         deck: EuchreDeck;
@@ -26,17 +28,21 @@ module Euchre {
 
             this.deck = new EuchreDeck();
 
-            this.setupTeamScores();
-            this.setupTeamTrickScores();
             this.setupPlayers();
             this.dealCards();
+        }
+
+        render() {
+            this.renderTeamScores();
+            this.renderTeamTrickScores();
+            this.renderTeamBoxes();
         }
 
         update() {
 
 
         }
-
+        
         playCard(player: Player, card: CardSprite) {
 
             //this._currentPlayer.takeTurn(this);
@@ -63,7 +69,7 @@ module Euchre {
             }
         }
 
-        private setupTeamScores() {
+        private renderTeamScores() {
 
             var blueText = this.game.add.text(this.game.width - 120, 10, 'Blue:', null);
             blueText.scale.setTo(0.5);
@@ -100,7 +106,7 @@ module Euchre {
             this._redScore.fill = 'red';
         }
 
-        private setupTeamTrickScores() {
+        private renderTeamTrickScores() {
 
             var blueTricks = this.game.add.text(this.game.width - 120, this.game.height - 40, 'Tricks:', null);
             blueTricks.scale.setTo(0.5);
@@ -135,6 +141,11 @@ module Euchre {
             this._redTricks.stroke = 'white';
             this._redTricks.strokeThickness = 6;
             this._redTricks.fill = 'red';
+        }
+        
+        private renderTeamBoxes() {
+            var redRectangle = new Phaser.Rectangle(0, 0, 200, 100);
+            this.game.debug.geom(redRectangle, 'Red')
         }
 
         resetScores() {

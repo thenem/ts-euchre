@@ -39,7 +39,10 @@ var Euchre;
             this._card = card;
             this._seatType = seatType;
             this.anchor.setTo(0.5);
-            this.animations.add('flip', [this._card.cardType]);
+            this._flipAnimation = this.animations.add('flip', [this._card.cardType], 1, false, true);
+            if (seatType == Euchre.SeatType.Self) {
+                this.flipCard();
+            }
             game.add.existing(this);
         }
         Object.defineProperty(CardSprite.prototype, "perspective", {
@@ -70,7 +73,7 @@ var Euchre;
             configurable: true
         });
         CardSprite.prototype.flipCard = function () {
-            this.animations.play('flip');
+            this._flipAnimation.play();
         };
         return CardSprite;
     })(Phaser.Sprite);
@@ -263,10 +266,13 @@ var Euchre;
             this.background.width = this.game.width;
             this.background.height = this.game.height;
             this.deck = new Euchre.EuchreDeck();
-            this.setupTeamScores();
-            this.setupTeamTrickScores();
             this.setupPlayers();
             this.dealCards();
+        };
+        GameBoard.prototype.render = function () {
+            this.renderTeamScores();
+            this.renderTeamTrickScores();
+            this.renderTeamBoxes();
         };
         GameBoard.prototype.update = function () {
         };
@@ -288,7 +294,7 @@ var Euchre;
                 this._currentPlayer = this._leftPlayer;
             }
         };
-        GameBoard.prototype.setupTeamScores = function () {
+        GameBoard.prototype.renderTeamScores = function () {
             var blueText = this.game.add.text(this.game.width - 120, 10, 'Blue:', null);
             blueText.scale.setTo(0.5);
             blueText.font = 'Segoe UI';
@@ -320,7 +326,7 @@ var Euchre;
             this._redScore.strokeThickness = 6;
             this._redScore.fill = 'red';
         };
-        GameBoard.prototype.setupTeamTrickScores = function () {
+        GameBoard.prototype.renderTeamTrickScores = function () {
             var blueTricks = this.game.add.text(this.game.width - 120, this.game.height - 40, 'Tricks:', null);
             blueTricks.scale.setTo(0.5);
             blueTricks.font = 'Segoe UI';
@@ -351,6 +357,10 @@ var Euchre;
             this._redTricks.stroke = 'white';
             this._redTricks.strokeThickness = 6;
             this._redTricks.fill = 'red';
+        };
+        GameBoard.prototype.renderTeamBoxes = function () {
+            var redRectangle = new Phaser.Rectangle(0, 0, 200, 100);
+            this.game.debug.geom(redRectangle, 'Red');
         };
         GameBoard.prototype.resetScores = function () {
             this._blueScore.text = '0';

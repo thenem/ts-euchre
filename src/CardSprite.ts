@@ -5,6 +5,7 @@ module Euchre {
 
         private _card: Card;
         private _seatType: SeatType;
+        private _flipAnimation: Phaser.Animation;
 
         constructor(card: Card, seatType: SeatType, game: Phaser.Game, x?: number, y?: number) {
 
@@ -14,7 +15,11 @@ module Euchre {
             this._seatType = seatType;
 
             this.anchor.setTo(0.5);
-            this.animations.add('flip', [this._card.cardType]);
+            this._flipAnimation = this.animations.add('flip', [this._card.cardType], 1, false, true);
+            
+            if (seatType == SeatType.Self) {
+                this.flipCard();
+            }
 
             game.add.existing(this);
         }
@@ -50,7 +55,7 @@ module Euchre {
 
         flipCard() {
 
-            this.animations.play('flip');
+            this._flipAnimation.play();
         }
     }
 
