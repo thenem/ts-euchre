@@ -7,6 +7,10 @@ module Euchre {
         private _redScore: Phaser.Text;
         private _blueTricks: Phaser.Text;
         private _redTricks: Phaser.Text;
+        private _redLeftBadge: Phaser.Text;
+        private _redRightBadge: Phaser.Text;
+        private _bluePartnerBadge: Phaser.Text;
+        private _blueSelfBadge: Phaser.Text;
         private _leftPlayer: Player;
         private _partnerPlayer: Player;
         private _rightPlayer: Player;
@@ -35,7 +39,8 @@ module Euchre {
         render() {
             this.renderTeamScores();
             this.renderTeamTrickScores();
-            this.renderTeamBoxes();
+            this.renderTeamNames();
+            this.updateDealerBadges();
         }
 
         update() {
@@ -143,9 +148,83 @@ module Euchre {
             this._redTricks.fill = 'red';
         }
         
-        private renderTeamBoxes() {
-            var redRectangle = new Phaser.Rectangle(0, 0, 200, 100);
-            this.game.debug.geom(redRectangle, 'Red')
+        private renderTeamNames() {
+            
+            var redLeftName = this.game.add.text(20, 120, 'Computer', null);
+            redLeftName.scale.setTo(0.5);
+            redLeftName.font = 'Segoe UI';
+            redLeftName.fontSize = 30;
+            redLeftName.fontWeight = 'bold';
+            redLeftName.stroke = 'white';
+            redLeftName.strokeThickness = 3;
+            redLeftName.fill = 'red';
+            
+            this._redLeftBadge = this.game.add.text(redLeftName.x + redLeftName.width + 4, redLeftName.y, '', null);
+            this._redLeftBadge.scale.setTo(0.5);
+            this._redLeftBadge.font = 'Segoe UI';
+            this._redLeftBadge.fontSize = 30;
+            this._redLeftBadge.fontWeight = 'bold';
+            this._redLeftBadge.stroke = 'white';
+            this._redLeftBadge.strokeThickness = 3;
+            this._redLeftBadge.fill = 'red';
+            
+            var redRightName = this.game.add.text(this.game.width - 140, 120, 'Computer', null);
+            redRightName.scale.setTo(0.5);
+            redRightName.font = 'Segoe UI';
+            redRightName.fontSize = 30;
+            redRightName.fontWeight = 'bold';
+            redRightName.stroke = 'white';
+            redRightName.strokeThickness = 3;
+            redRightName.fill = 'red';
+            
+            this._redRightBadge = this.game.add.text(redRightName.x + redRightName.width + 4, redRightName.y, '', null);
+            this._redRightBadge.scale.setTo(0.5);
+            this._redRightBadge.font = 'Segoe UI';
+            this._redRightBadge.fontSize = 30;
+            this._redRightBadge.fontWeight = 'bold';
+            this._redRightBadge.stroke = 'white';
+            this._redRightBadge.strokeThickness = 3;
+            this._redRightBadge.fill = 'red';
+            
+            var bluePartnerName = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 140, 'Partner', null);
+            bluePartnerName.scale.setTo(0.5);
+            bluePartnerName.anchor.setTo(0.5);
+            bluePartnerName.font = 'Segoe UI';
+            bluePartnerName.fontSize = 30;
+            bluePartnerName.fontWeight = 'bold';
+            bluePartnerName.stroke = 'white';
+            bluePartnerName.strokeThickness = 3;
+            bluePartnerName.fill = 'blue';
+            
+            this._bluePartnerBadge = this.game.add.text(bluePartnerName.x + bluePartnerName.width + 4, bluePartnerName.y, '', null);
+            this._bluePartnerBadge.scale.setTo(0.5);
+            this._bluePartnerBadge.anchor.setTo(0.5);
+            this._bluePartnerBadge.font = 'Segoe UI';
+            this._bluePartnerBadge.fontSize = 30;
+            this._bluePartnerBadge.fontWeight = 'bold';
+            this._bluePartnerBadge.stroke = 'white';
+            this._bluePartnerBadge.strokeThickness = 3;
+            this._bluePartnerBadge.fill = 'blue';
+            
+            var blueSelfName = this.game.add.text(this.game.world.centerX, this.game.world.centerY + 140, 'You', null);
+            blueSelfName.scale.setTo(0.5);
+            blueSelfName.anchor.setTo(0.5);
+            blueSelfName.font = 'Segoe UI';
+            blueSelfName.fontSize = 30;
+            blueSelfName.fontWeight = 'bold';
+            blueSelfName.stroke = 'white';
+            blueSelfName.strokeThickness = 3;
+            blueSelfName.fill = 'blue';
+            
+            this._blueSelfBadge = this.game.add.text(blueSelfName.x + blueSelfName.width + 4, blueSelfName.y, '', null);
+            this._blueSelfBadge.scale.setTo(0.5);
+            this._blueSelfBadge.anchor.setTo(0.5);
+            this._blueSelfBadge.font = 'Segoe UI';
+            this._blueSelfBadge.fontSize = 30;
+            this._blueSelfBadge.fontWeight = 'bold';
+            this._blueSelfBadge.stroke = 'white';
+            this._blueSelfBadge.strokeThickness = 3;
+            this._blueSelfBadge.fill = 'blue';
         }
 
         resetScores() {
@@ -154,6 +233,33 @@ module Euchre {
             this._redScore.text = '0';
             this._blueTricks.text = '0';
             this._redTricks.text = '0';
+        }
+        
+        private updateDealerBadges() {
+            
+            this.clearBadges();
+            
+            switch (this._dealer.seat) {
+                case SeatType.Left:
+                    this._redLeftBadge.text = '(D)';
+                    break;
+                case SeatType.Right:
+                    this._redRightBadge.text = '(D)';
+                    break;
+                case SeatType.Partner:
+                    this._bluePartnerBadge.text = '(D)';
+                    break;
+                case SeatType.Self:
+                    this._blueSelfBadge.text = '(D)';
+                    break;
+            }
+        }
+        
+        private clearBadges() {
+            this._redRightBadge.text = '';
+            this._redLeftBadge.text = '';
+            this._bluePartnerBadge.text = '';
+            this._blueSelfBadge.text = '';
         }
 
         private setupPlayers() {
