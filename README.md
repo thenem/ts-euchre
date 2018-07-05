@@ -1,2 +1,2 @@
 # ts-euchre
-Euchre game in TypeScript
+My attempt at creating a game using Phaser and Typscript. It is not complete at all.
