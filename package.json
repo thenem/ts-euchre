@@ -1,26 +1,18 @@
 {
-  "name": "euchre",
-  "version": "1.0.0",
-  "description": "Euchre card game written in TypeScript",
-  "main": "index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thenem/ts-euchre.git"
-  },
-  "author": "Thenem (bnem@att.net)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/thenem/ts-euchre/issues"
-  },
-  "homepage": "https://github.com/thenem/ts-euchre#readme",
-  "dependencies": {
-    "phaser": "*"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-connect": "^2.3.1"
-  }
+    "name": "phaser-euchre",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "devDependencies": {
+        "typescript": "^4.6.4",
+        "vite": "^3.2.3"
+    },
+    "dependencies": {
+        "phaser": "^3.55.2"
+    }
 }

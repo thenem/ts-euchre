@@ -1,0 +1,30 @@
+export class Preloader extends Phaser.Scene {
+    preloadBar!: Phaser.GameObjects.Sprite;
+
+    preload() {
+        this.preloadBar = this.add.sprite(200, 250, 'preloadBar');
+        // this.load.addFile(this.preloadBar);
+
+        this.load.image('titlepage', 'images/titlepage.jpg');
+        this.load.image('background', 'images/background.jpg');
+        this.load.spritesheet('cards', 'images/cards.png', {
+            frameWidth: 79,
+            frameHeight: 123,
+            endFrame: 53
+        });
+    }
+
+    create() {
+        const tween = this.tweens.add({
+            targets: this.preloadBar,
+            duration: 1000,
+            ease: 'Linear'
+        });
+
+        tween.on('complete', () => this.startMainMenu());
+    }
+
+    startMainMenu() {
+        this.game.scene.start('MainMenu');
+    }
+}

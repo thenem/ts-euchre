@@ -1,0 +1,13 @@
+export class Boot extends Phaser.Scene {
+    constructor() {
+        super('GameScene');
+    }
+
+    preload() {
+        this.load.image('preloadBar', 'images/loader.png');
+    }
+
+    create() {
+        this.game.scene.start('Preloader');
+    }
+}
